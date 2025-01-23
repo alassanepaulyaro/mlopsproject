@@ -127,3 +127,57 @@ ________________________________________
     - Choose GitHub as the source: Select GitHub as the source and choose the repository and branch.
     - Choose the deploy provider: Select Elastic Beanstalk as the deploy provider and enter the application name "studentperformance" - and environment name "studentperformance-env".
     - Create the pipeline: Click on "Create pipeline" to create the pipeline.
+
+
+
+=====================================
+#### Deployment on EC2 with Docker
+
+- Step 1: Create an IAM User
+    - Create a new user: Go to the AWS management console and navigate to IAM. Click on "Users" and then "Create user".
+    - Enter user details: Enter the user name "mlopsuser" and select "Programmatic access" as the access type.
+    - Set permissions: Attach the following policies to the user:
+        - AmazonEC2ContainerRegistryFullAccess
+        - AmazonEC2FullAccess
+    - Create the user: Click on "Next" and then "Create user".
+
+- Step 2: Create Access Keys for the IAM User
+    - Go to the user's security credentials: Click on the user "mlopsuser" and navigate to the "Security credentials" tab.
+    - Create access keys: Click on "Create access key" and copy the access key ID and secret access key.
+
+- Step 3: Create an ECR Repository
+    - Navigate to ECR: Go to the AWS management console and navigate to ECR.
+    - Create a new repository: Click on "Create repository" and enter the repository name "studentperformance".
+    - Copy the repository URL: Copy the repository URL.
+- Step 4: Launch an EC2 Instance
+    - Navigate to EC2: Go to the AWS management console and navigate to EC2.
+    - Launch an instance: Click on "Launch instance" and select the appropriate configuration.
+    - Choose a key pair: Select a key pair or create a new one.
+    - Create the instance: Click on "Launch instance" to create the instance.
+
+- Step 5: Connect to the EC2 Instance
+    - Connect to the instance: Use SSH to connect to the EC2 instance.
+
+- Step 6: Docker Setup in EC2
+- Optional
+    - Update and upgrade: Run the following commands to update and upgrade the instance:
+    > sudo apt-get update -y
+    > sudo apt-get upgrade
+- Required
+    - Install Docker: Run the following commands to install Docker:
+    > curl -fsSL https://get.docker.com -o get-docker.sh
+    > sudo sh get-docker.sh
+    > sudo usermod -aG docker ubuntu
+    > newgrp docker
+    - Verify Docker installation: Run the command docker to verify the installation.
+
+- Step 7: Configure GitHub Actions
+- Navigate to GitHub: Go to your GitHub repository and navigate to Settings > Actions.
+- Create a new runner: Click on "New runner" and select "Linux" as the runner type.
+- Run the command: Run the command to configure the runner.
+- Add secrets: Add the following secrets to your GitHub repository:
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_REGION
+    - AWS_ECR_LOGIN_URI
+    - ECR_REPOSITORY_NAME
