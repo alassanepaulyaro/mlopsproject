@@ -102,3 +102,28 @@ This application demonstrates a full machine learning solution pipeline:
 4.	Deployment via a Flask web app, allowing end-users to input their details and receive real-time predictions of math scores.
 
 ________________________________________
+
+#### Step to Build the Application
+- Create a new environment: $ conda create -p venv python==3.12.7 -y
+- Activate the environment: $ conda activate venv/
+- Install required packages: $ pip install -r requirements.txt
+- Run the data ingestion script: $ python src/component/data_ingestion.py
+
+#### Step to Run the Flask Application
+- Run the Flask application: $ python app.py
+- Access the home page: http://127.0.0.1:5000
+- Access the predict page: http://127.0.0.1:5000/predictdata/
+
+
+#### Deployment on AWS
+- Step 1: Create an Elastic Beanstalk Application
+    - Connect to your AWS account: Go to the AWS management console and search for Elastic Beanstalk.
+    - Create a new application: process: 
+    https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-create-wizard.html
+     https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.environments.html
+- Step 2: Create a CodePipeline
+    - Search and click on CodePipeline: Go to the AWS management console and search for CodePipeline.
+    - Create a new pipeline: Click on "Create pipeline" and enter the pipeline name "studentperformancepipeline".
+    - Choose GitHub as the source: Select GitHub as the source and choose the repository and branch.
+    - Choose the deploy provider: Select Elastic Beanstalk as the deploy provider and enter the application name "studentperformance" - and environment name "studentperformance-env".
+    - Create the pipeline: Click on "Create pipeline" to create the pipeline.
