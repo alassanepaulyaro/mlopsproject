@@ -181,3 +181,55 @@ ________________________________________
     - AWS_REGION
     - AWS_ECR_LOGIN_URI
     - ECR_REPOSITORY_NAME
+
+=====================================
+
+#### Deployment on Azure
+- Step 1: Create a New Azure Container Registry
+    1. In the Azure Portal, create a new Container Registry.
+
+        - Name: mlopsprojectdocker (example)
+        - Resource Group: (select or create one)
+        - SKU: (choose an appropriate tier, e.g., Basic or Standard)
+
+    2. After creation, open your container registry and navigate to Settings → Access Keys.
+
+    - Enable Admin user.
+    - Copy the Login server (e.g., mlopsprojectdocker.azurecr.io) and the password.
+
+- Step 2: Build and Push Your Docker Image
+    Prerequisite: You have a Dockerfile in your project’s root directory.
+
+    1. In your local project terminal, build the Docker image:
+    > docker build -t mlopsprojectdocker.azurecr.io/mltest:latest .
+
+    2. Log in to your Azure Container Registry:
+    > docker login mlopsprojectdocker.azurecr.io
+    Use the username mlopsprojectdocker (or the one you copied from the Portal, if different) and the password from Access Keys.
+
+    3. Push the Docker image to your Azure Container Registry:
+
+    > docker push mlopsprojectdocker.azurecr.io/mltest:latest
+
+- Step 3: Create an Azure Web App
+    1. In the Azure Portal, go to All resources.
+    2. Select Create → Web App:
+        - Name: mlopsproject (example)
+        - Publish: Container
+        - Operating System: Linux
+        - Region: (choose the appropriate region for your needs)
+        - Plan: (select or create an App Service plan)
+
+    3. In the Configuration or Container settings (depending on the Azure Portal version):
+
+        - Image Source: Azure Container Registry
+        - Registry: mlopsprojectdocker (the registry name you created)
+        - Image: mltest
+        - Tag: latest
+    4. Click Create to finalize the Web App.
+
+- Step 4: Configure Deployment Center (Optional)
+    1. Navigate to your newly created Web App resource.
+    2. Go to Deployment → Deployment Center
+    3. If desired, set up Continuous Deployment from a GitHub repository or other source.
+    4. Fill out the required information and Save the configuration.
